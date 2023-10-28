@@ -3,19 +3,25 @@ import axios from 'axios';
 
 const Register = () => {
     const [user, setUser] = useState({
-        FirstName: "", LastName: "", username: "", password: ""
+        FirstName: '', LastName: '', username: '', password: ''
     });
 
     const handleRegister = async () => {
-        try {
-          const response = await axios.post('http://localhost:5000/api/register', user);
-          console.log('Registration successful', response.data);
-          
-        } catch (error) {
-          console.error('Registration failed', error);
-          
+        if (
+            Object.values(user).some((field) => field === '') ||
+            Object.values(user).some((field) => field === undefined)
+        ) {
+            alert('Please fill in all fields before registering.');
+            return;
         }
-      };
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/register', user);
+            console.log('Registration successful', response.data);
+        } catch (error) {
+            console.error('Registration failed', error);
+        }
+    };
 
     return (
         <div>
@@ -43,7 +49,7 @@ const Register = () => {
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
                 placeholder="Password"
             />
-            <button onClick={handleRegister} > Register </button>
+            <button onClick={handleRegister}>Register</button>
         </div>
     );
 }

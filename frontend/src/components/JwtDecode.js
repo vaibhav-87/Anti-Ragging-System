@@ -1,26 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import jwt_decode from 'jwt-decode';
+import React from "react";
+import jwt_decode from "jwt-decode";
+import { Navigate } from "react-router-dom";
 
-function MyComponent() {
-  // Retrieve the token from your storage (e.g., localStorage)
-  const token = localStorage.getItem('token');
-  
-  // Check if the token exists
+function JwtDecode() {
+  const token = localStorage.getItem("token");
+
+  //Checking whether the user is logged in or not if now then navigating to root route
+  //In short securing this route
   if (!token) {
-    return <p>You are not logged in.</p>;
+    alert("You are not logged in. Please log in first!");
+    return <Navigate to="/" replace />;
   }
 
-  // Decode the token to get user data
-  const user = jwt_decode(token);
+  try {
+    const user = jwt_decode(token);
 
-  // Now, 'user' contains the decoded user data (e.g., user.id, user.username)
-
-  // You can use 'user' in your component's state or display user information
-  return (
-    <div>
-      <p>Welcome, {user.username}!</p>
-    </div>
-  );
+    return (
+      <div>
+        <p>Welcome, {user.username}!</p>
+      </div>
+    );
+  } catch (error) {
+    console.error("Error decoding the token:", error);
+    localStorage.removeItem("token");
+    return <p>Error decoding the token. Please log in again.</p>;
+  }
 }
 
-export default MyComponent;
+export default JwtDecode;

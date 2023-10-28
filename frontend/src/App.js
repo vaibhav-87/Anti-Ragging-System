@@ -1,65 +1,64 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  Navigate,
-} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Register from "./pages/register";
 import Login from "./pages/Login";
 import JwtDecode from "./components/JwtDecode";
-import Logout from "./components/Logout";
+import jwt_decode from "jwt-decode";
+import { Navigate } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import ShowComplaints from "./pages/Complaints";
+import RegisterComplaint from "./pages/SubmitComplaint";
 
 function App() {
-  // Check for the presence of a valid token
+  // ...
   const token = localStorage.getItem("token");
+  const [user, setUser] = useState(token ? jwt_decode(token) : null);
+
+  const check = ()=>{
+    if(!token) alert("You are not logged in!");
+  }
 
   return (
-    <div className="App">
-      <Router>
+    <Router>
+        <Navbar />
+      <div className="App">
+
         <div>
-          <nav>
+          {/* <nav>
             <ul>
               <li>
                 <Link to="/">Home</Link>
               </li>
-              {token ? "Logged in" : <Link to="/login">Login</Link>}
-              {/* <li>
-                <Link to="/login">Login</Link>
-              </li> */}
-              <li>
-                <Link to="/register">Register</Link>
-              </li>
-              <li>
-                <Link to="/decoded">Decoded Data</Link>
-              </li>
-              <li>
-                <Link to="/logout">Logout User</Link>
-              </li>
+              {user ? (
+                <div>
+                  <span>Welcome, {user.username}!</span>
+                  <Link to="/decoded">Decoded Data</Link>
+                  <button onClick={handleLogout}>Logout</button>
+                </div>
+              ) : (
+                <div>
+                  <Link to="/login">Login</Link>
+                  <Link to="/register">Register</Link>
+                </div>
+              )}
             </ul>
-          </nav>
+          </nav> */}
 
           <Routes>
-            {/* Home Route */}
-            {/* <Route path="/" element={<Home />} /> */}
-
-            {/* Login Route */}
             <Route path="/login" element={<Login />} />
-
-            {/* Register Route */}
             <Route path="/register" element={<Register />} />
-
-            {/* Decoded Data Route (Protected) */}
-            <Route
+            <Route path="/decoded" element={<JwtDecode />} />
+            <Route path="/registercomplaint" element={user ? <RegisterComplaint /> : <Navigate to="/" />} />
+            {/* <Route path='/showcomplaints' element={<ShowComplaints/>} /> */}
+            <Route path="/showcomplaints" element={user ? <ShowComplaints /> : <Navigate to="/" />} />
+            {/* <Route
               path="/decoded"
-              element={token ? <JwtDecode /> : <Navigate to="/login" />}
-            />
-            <Route path="/logout" element={<Logout />} />
+              element={user ? <JwtDecode /> : <Navigate to="/login" />}
+            /> */}
           </Routes>
         </div>
-      </Router>
-    </div>
+      </div>
+    </Router>
   );
 }
 

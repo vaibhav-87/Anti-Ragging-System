@@ -1,29 +1,47 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 function Login() {
   const [user, setUser] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
+
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/login', user);
+      const { username, password } = user;
 
-      if (response.status === 200) {
-        const token = response.data.token;
+      if (username !== "" && password !== "") {
+        const response = await axios.post(
+          "http://localhost:5000/api/login",
+          user
+        );
 
-        // Store the token in localStorage
-        localStorage.setItem('token', token);
+        if (response.status === 200) {
+          const token = response.data.token;
+          console.log("Generated Token ", token);
+
+          localStorage.setItem("token", token);
+          console.log("Login Successful!");
+
+          navigate('/');
+          window.location.reload();
+        } else {
+          alert("Login failed!");
+        }
       } else {
-        alert('Login failed!');
+        alert("Please Enter Username and Password");
+        return;
       }
     } catch (error) {
-      console.error('Login failed', error);
-      alert('Login failed!');
+      console.error("Login failed", error);
+      alert("Login failed!");
     }
-  }
+  };
 
   return (
     <div>
