@@ -8,6 +8,7 @@ const passport = require("passport");
 const {initializingPassport} = require('./passportConfig.js');
 const expressSession = require("express-session");
 const cookieSession = require("cookie-session");
+const { Complaints } = require('./ComplaintSchema'); 
 
 connectMongoose();
 
@@ -24,14 +25,37 @@ app.use(expressSession({secret: "secret", resave: false, saveUninitialized: fals
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
+//Routes for login and Register
 app.use('/api/login', LoginRoute);
 app.use('/api/register', Routes);
 
-app.post('/login/success', (req, res)=>{
-  
-})
+
+//Route to submit complaints
+app.post("/api/complaint", async(req, res)=>{
+  const newComplaint = await Complaints.create(req.body);
+  console.log(newComplaint);
+  res.status(201).send(newComplaint);
+});
+
+//Route to get all complaints associated with perticular username
+app.get("/api/getcomplaint", async (req, res) => {
+  const { username } = req.query;
+  if (!username) {
+    return res.status(400).json({ message: 'Username is required' });
+  }
+
+  try {
+    // Retrieve complaints based on the username
+    const allComplaints = await Complaints.find({ username });
+    console.log(allComplaints);
+    res.json(allComplaints);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve complaints' });
+  }
+});
+
+
+
 
 app.listen(5000, () => {
   console.log("Running on http://localhost:5000");
