@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Mooli&family=Ubuntu&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Mooli', sans-serif;
+}
+
+:root {
+    --color-1: blue;
+    --color-2: yellow;
+    --color-3: green;
+    --color-4: red;
+    --color-5: orange;
+}
+
+h1 {
+    color:black;
+    font-weight: 600;
+}
+
+a {
+    text-decoration: none;
+}
+
+.common-heading {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.common-title {
+    margin-bottom: 50px;
+}
+
+/* Navbar styling */
+.nav-link {
+    color: black;
+}
+
+.nav-link:hover {
+    color: rgb(6, 85, 104);
+}
+
+.navbar{
+    background-color: #44314f;
+}

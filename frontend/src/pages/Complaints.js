@@ -7,7 +7,7 @@ const Complaints = () => {
   const token = localStorage.getItem("token");
   const decodedToken = token ? jwt_decode(token) : null;
   const username = decodedToken ? decodedToken.username : null;
-  console.log("Hellow")
+  console.log("Hellow");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,21 +35,26 @@ const Complaints = () => {
   }
 
   return (
-    <div>
-      <h1>Complaints</h1>
+    <div className="container">
+      <div className="text-center">
+        <h1>Complaints</h1>
+      </div>
 
       {!isComplaint ? (
-        <h2>No Complaints to Show</h2>
+        <div className="text-center">
+          <h2>No Complaints to Show</h2>
+        </div>
       ) : (
-        <table>
-          <thead>
+        <table className="table table-responsive mx-auto">
+          <thead className="thead-dark">
             <tr>
-              <th>No</th>
-              <th>Date</th>
-              <th>Location</th>
-              <th>Description</th>
-              <th>Incident Type</th>
-              <th>Severity of Incident</th>
+              <th scope="col">No</th>
+              <th scope="col">Date</th>
+              <th scope="col">Location</th>
+              <th scope="col">Description</th>
+              <th scope="col">Incident Type</th>
+              <th scope="col">Severity of Incident</th>
+              <th scope="col">complaint Status</th>
             </tr>
           </thead>
           <tbody>
@@ -61,6 +66,7 @@ const Complaints = () => {
                 <td>{complaint.Description}</td>
                 <td>{complaint.IncidentType}</td>
                 <td>{complaint.SeverityOfIncident}</td>
+                <td>{complaint.status}</td>
               </tr>
             ))}
           </tbody>

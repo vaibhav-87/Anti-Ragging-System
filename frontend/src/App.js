@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Register from "./pages/register";
 import Login from "./pages/Login";
@@ -8,53 +8,88 @@ import { Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ShowComplaints from "./pages/Complaints";
 import RegisterComplaint from "./pages/SubmitComplaint";
+import Home from "./pages/Home";
+import axios from "axios";
+import HomeNavbar from './components/HomeNavbar';
+import AllComplaints from './pages/AllComplaints';
+import AdminNavbar from './components/AdminNavbar';
 
 function App() {
   // ...
   const token = localStorage.getItem("token");
   const [user, setUser] = useState(token ? jwt_decode(token) : null);
+  const [role, setRole] = useState(null);
 
-  const check = ()=>{
-    if(!token) alert("You are not logged in!");
+  let uuser;
+  let isAdmin = false;
+  if (user === null) {
+    console.log("Not logged in");
+  } else if (user) {
+    uuser = user.username;
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (user === null) {
+          return;
+        }
+
+        const response = await axios.post("http://localhost:5000/api/getrole", {
+          username: uuser,
+        });
+
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          const userRole = response.data[0].role;
+          console.log("Role Found:", userRole);
+          if(userRole==='admin'){
+            isAdmin = true;
+          }
+          setRole(userRole);
+        } else {
+          console.log("No role data found for the user.");
+        }
+      } catch (error) {
+        console.log("Message from get role", error.message);
+      }
+      console.log(isAdmin);
+    };
+    fetchData();
+  }, []);
 
   return (
     <Router>
-        <Navbar />
-      <div className="App">
+    {/* {user ? (isAdmin ? <HomeNavbar /> : <Navbar />) : <HomeNavbar/>} */}
 
+    {user ? (
         <div>
-          {/* <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              {user ? (
-                <div>
-                  <span>Welcome, {user.username}!</span>
-                  <Link to="/decoded">Decoded Data</Link>
-                  <button onClick={handleLogout}>Logout</button>
-                </div>
-              ) : (
-                <div>
-                  <Link to="/login">Login</Link>
-                  <Link to="/register">Register</Link>
-                </div>
-              )}
-            </ul>
-          </nav> */}
+          {role === "admin" ? (
+            <AdminNavbar />
+          ) : (
+            <Navbar />
+          )}
+        </div>
+      ) : (
+        <HomeNavbar />
+      )}
 
+      <div className="App">
+        <div>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/decoded" element={<JwtDecode />} />
-            <Route path="/registercomplaint" element={user ? <RegisterComplaint /> : <Navigate to="/" />} />
-            {/* <Route path='/showcomplaints' element={<ShowComplaints/>} /> */}
-            <Route path="/showcomplaints" element={user ? <ShowComplaints /> : <Navigate to="/" />} />
-            {/* <Route
-              path="/decoded"
-              element={user ? <JwtDecode /> : <Navigate to="/login" />}
-            /> */}
+            <Route path="/allcomplaints" element={<AllComplaints />} />
+
+            <Route
+              path="/registercomplaint"
+              element={user ? <RegisterComplaint /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/showcomplaints"
+              element={user ? <ShowComplaints /> : <Navigate to="/" />}
+            />
           </Routes>
         </div>
       </div>

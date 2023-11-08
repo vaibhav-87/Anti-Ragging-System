@@ -1,0 +1,18 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    /* color: whitesmoke; */
+}
+
+.container{
+    width: 50%;
+   
+}
+
+.backcomplaint{
+    background: url('../images/complaint.jpg')no-repeat center/cover;
+    height: 81vh;
+    opacity: 0.9;
+}

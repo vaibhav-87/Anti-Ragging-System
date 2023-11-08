@@ -1,0 +1,111 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* ******************LOGINPAGE****************** */
+
+
+.backgroundimg{
+    /* background-color: black; */
+    background: url('../images/loginback.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* background: url('../Images/Untitledlogin1.jpg') no-repeat center/cover; */
+    height: 77.6vh;
+}
+
+#login {
+    border: 2px solid white;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 450px;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    margin-top: 70px;
+  }
+  
+#login h2{
+    /* border: 2px solid black; */
+    position:relative;
+    top: -20px;
+    font-size: 33px;
+    text-align: center;
+    color: white;
+}
+
+.input-box{
+    position: relative;
+    border-bottom: 2px solid white;
+    height: 50px;
+    margin: 10px 0;
+    width: 320px;
+}
+
+.input-box input{
+    font-weight:bold;
+    color: #fff;
+    font-size: 17px;
+}
+
+.input-box input::placeholder{
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+.input-box input{
+    width: 75%;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 10px;
+}
+.input-box img{
+    filter: invert(100%);
+    width: 28px;
+    height: 28px;
+    position: relative;
+    top: 5px;
+}
+
+.btns{
+    font-size: 20px;
+    width: 130px;
+    margin-top:20px;
+    margin-bottom: 20px;
+    padding: 4px;
+    background: transparent;
+    outline: none;
+    border: none;
+    border: 2px solid white;
+    width: 100%;
+    border-radius: 4px;
+    height: 100%;
+    color: white;
+}
+
+
+.btns:hover{
+    cursor: pointer;
+    color:  rgb(220 253 152);
+}
+
+.loginacc{
+    text-align: center;
+}
+
+.loginacc a{
+    text-decoration: none;
+}
+.loginacc a:hover{
+    color: rgb(233, 233, 19);
+}

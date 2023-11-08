@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 exports.connectMongoose = () => {
   mongoose
-    .connect("mongodb+srv://vaiasawaleva:vaibhav@cluster0.wzqa3gm.mongodb.net/?retryWrites=true&w=majority")
+    .connect(process.env.mongoDB)
     .then((e) => {
       console.log(`Connected to mongodb:${e.connection.host}`);
     })
@@ -12,7 +12,7 @@ exports.connectMongoose = () => {
 const userSchema = new mongoose.Schema({
     FirstName:{
         type: String,
-        required: true
+        required: true,
     },
 
     LastName:{
@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema({
     password:{
         type: String,
         required: true
+    },
+
+    role:{
+        type: String,
+        default: 'user'
     }
 });
 
