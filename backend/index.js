@@ -103,5 +103,5 @@ app.delete("/api/deletecomplaint", async (req, res) => {
 
 app.listen(5000, () => {
   console.log("Running on http://localhost:5000");
-  console.log(process.env.mongoDB);
+  // console.log(process.env.mongoDB);
 });
